@@ -19,31 +19,9 @@ class DatabaseConnectorSpec extends ObjectBehavior
         $this->shouldHaveType('App\Database\DatabaseConnector');
     }
 
-    public function it_should_not_be_constructed_witout_a_dsn()
-    {
-        $db = new PDODatabase();
-        $this->shouldThrow('App\Database\DatabaseCreationException')
-             ->during('__construct', [$db, []]);
-    }
-
-    public function it_should_not_be_constructed_witout_a_username()
-    {
-        $db = new PDODatabase();
-        $this->shouldThrow('App\Database\DatabaseCreationException')
-             ->during('__construct', [$db, ['dsn' => 'a']]);
-    }
-
-    public function it_should_not_be_constructed_witout_a_password()
-    {
-        $db = new PDODatabase();
-        $this->shouldThrow('App\Database\DatabaseCreationException')
-             ->during('__construct', [$db, ['dsn' => 'a', 'username' => 'foo']]);
-    }
-
     public function it_should_not_connect_with_invalid_credentials()
     {
         $db = new PDODatabase();
-        $this->shouldThrow('App\Database\DatabaseCreationException')
-             ->during('__construct', [$db, ['dsn' => 'a', 'username' => 'foo', 'password' => 'bar']]);
+        $this->shouldThrow('App\Database\DatabaseCreationException')->during('__construct', [$db, ['a', 'b', 'c']]);
     }
 }
