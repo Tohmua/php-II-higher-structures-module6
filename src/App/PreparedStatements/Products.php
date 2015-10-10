@@ -46,10 +46,7 @@ class Products
     public function fetch(array $where)
     {
         try {
-            $sql = sprintf(
-                'SELECT name, price, description FROM products WHERE `%s',
-                implode('` = ? AND `', array_keys($where)) . '` = ?'
-            );
+            $sql = $this->buildQuery($where);
 
             $statement = $this->db->prepare($sql);
             $statement->execute(array_values($where));
@@ -58,5 +55,17 @@ class Products
         } catch (PDOException $e) {
             throw new PreparedStatementsException($e->getMessage());
         }
+    }
+
+    public function buildQuery(array $where)
+    {
+        if (empty($where)) {
+            throw new PreparedStatementsException('buildQuery() expects an array with values');
+        }
+
+        return sprintf(
+            'SELECT name, price, description FROM products WHERE `%s',
+            implode('` = ? AND `', array_keys($where)) . '` = ?'
+        );
     }
 }
