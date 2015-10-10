@@ -5,7 +5,7 @@ namespace DbExample;
 use App\PreparedStatements\Products as PreparedStatement;
 use App\PreparedStatements\ProductsException as PreparedStatementsException;
 
-require_once __DIR__ . '/bootstrap.php';
+require_once 'bootstrap.php';
 
 /**
  * Prepared Statements
