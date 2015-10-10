@@ -22,6 +22,6 @@ class DatabaseConnectorSpec extends ObjectBehavior
     public function it_should_not_connect_with_invalid_credentials()
     {
         $db = new PDODatabase();
-        $this->shouldThrow('App\Database\DatabaseCreationException')->during('__construct', [$db, ['a', 'b', 'c']]);
+        $this->shouldThrow('App\Database\DatabaseCreationException')->during('connect');
     }
 }

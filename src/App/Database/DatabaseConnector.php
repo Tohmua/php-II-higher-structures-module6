@@ -8,12 +8,13 @@ use App\Database\Database;
 class DatabaseConnector
 {
     private $db;
+    private $config = [];
 
     public function __construct(Database $db, array $config)
     {
         $this->setDb($db);
 
-        return $this->connect($config);
+        $this->config = $config;
     }
 
     private function setDb(Database $db)
@@ -23,10 +24,10 @@ class DatabaseConnector
         return $this;
     }
 
-    private function connect(array $config)
+    public function connect()
     {
         try {
-            $this->db->connect($config);
+            $this->db->connect($this->config);
             return $this->db;
         } catch (DatabaseCreationException $e) {
             throw new DatabaseCreationException($e->getMessage());

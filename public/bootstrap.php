@@ -24,10 +24,10 @@ try {
 
     $serviceLocator->set(
         'database',
-        new DatabaseConnector(
+        (new DatabaseConnector(
             new PDODatabase(),
             $dbConfig
-        )
+        ))->connect()
     );
 } catch (DatabaseCreationException $e) {
     echo $e->getMessage();
