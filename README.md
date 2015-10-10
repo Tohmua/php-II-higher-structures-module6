@@ -7,9 +7,9 @@ This uses PSR-4 autoloading with phpspec unit tests. The system is automated usi
 # Install
 $ composer install
 
-$ npm install -g gulp
+$ npm install -g gulp (optional)
 
-$ npm install
+$ npm install (optional)
 
 $ mysql -u root -p < fixtures/schema.sql
 
