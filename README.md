@@ -14,6 +14,7 @@ $ npm install
 $ mysql -u root -p < fixtures/schema.sql
 
 $ cp src/App/Config/application.config.example.php src/App/Config/application.config.php
+
 Update the connection info in the application.config file.
 
 # Automated test running
