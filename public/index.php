@@ -9,7 +9,7 @@ use App\Database\PDODatabase;
 require_once __DIR__ . '/bootstrap.php';
 
 try {
-    $dbConfig = $serviceLocator->get('config')['database-oliver'];
+    $dbConfig = $serviceLocator->get('config')['database'];
 
     $serviceLocator->set(
         'database',
