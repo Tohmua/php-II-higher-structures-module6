@@ -19,3 +19,6 @@ Update the connection info in the application.config file.
 
 # Automated test running
 gulp
+
+# Usage
+Work through the code in public/index.php
