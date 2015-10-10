@@ -23,5 +23,4 @@ try {
     exit();
 }
 
-
 var_dump($dbConfig);
