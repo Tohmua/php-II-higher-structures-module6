@@ -5,13 +5,27 @@ namespace spec\App\ActiveRecord;
 use App\Database\PDODatabase;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use Prophecy\Prophet;
 
 class ProductsSpec extends ObjectBehavior
 {
     public function let()
     {
-        $db = new PDODatabase();
-        $this->beConstructedWith($db);
+        $this->beConstructedWith($this->mockDb());
+    }
+
+    private function mockDb()
+    {
+        $prophet = new Prophet();
+        $db = $prophet->prophesize('App\Database\PDODatabase');
+        $db->willImplement('App\Database\Database');
+
+        $dbStatement = $prophet->prophesize('PDOStatement');
+        $dbStatement->execute(["test", 1099, "test text"])->willReturn(true);
+
+        $db->prepare('INSERT INTO `products`(`name`, `price`, `description`) VALUES (?, ?, ?)')->willReturn($dbStatement);
+
+        return $db->reveal();
     }
 
     public function it_is_initializable()
@@ -52,5 +66,14 @@ class ProductsSpec extends ObjectBehavior
     {
         $this->price = 1099;
         $this->price()->shouldReturn('10.99');
+    }
+
+    public function it_should_save_price()
+    {
+        $this->name = 'test';
+        $this->price = 1099;
+        $this->description = 'test text';
+
+        $this->save()->shouldReturn(true);
     }
 }
