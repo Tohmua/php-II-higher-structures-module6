@@ -24,9 +24,11 @@ class ProductsSpec extends ObjectBehavior
         $dbStatement->execute(["test", 1099, "test text"])->willReturn(true);
         $dbStatement->execute([1])->willReturn(true);
         $dbStatement->fetch(\PDO::FETCH_ASSOC)->willReturn(['id' => 1, 'name' => 'test', 'price' => 1099, 'description' => 'some test data']);
+        $dbStatement->execute([1, "Philip", 1099, "some test data", 1, "test", 1099, "some test data"])->willReturn(true);
 
         $db->prepare('INSERT INTO `products`(`name`, `price`, `description`) VALUES (?, ?, ?)')->willReturn($dbStatement);
         $db->prepare('SELECT `id`, `name`, `price`, `description` FROM `products` WHERE `id` = ?')->willReturn($dbStatement);
+        $db->prepare('UPDATE `products` SET `id` = ?, `name` = ?, `price` = ?, `description` = ? WHERE `id` = ? AND `name` = ? AND `price` = ? AND `description` = ?')->willReturn($dbStatement);
 
         return $db->reveal();
     }
@@ -91,5 +93,12 @@ class ProductsSpec extends ObjectBehavior
         $this->name->shouldReturn('test');
         $this->price()->shouldReturn('10.99');
         $this->description->shouldReturn('some test data');
+    }
+
+    public function it_can_load_a_product_with_id_1_edit_and_save()
+    {
+        $this->load(['id' => 1]);
+        $this->name = 'Philip';
+        $this->save()->shouldReturn(true);
     }
 }
