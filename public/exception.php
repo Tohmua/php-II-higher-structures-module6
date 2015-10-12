@@ -12,7 +12,7 @@ $productName = 'foo';
 
 try {
     try {
-        $cat = new \App\Exception\Product($productId, $productName);
+        $cat = new Product($productId, $productName);
     } catch (IntegerException $e) {
         throw new Exception($e->getMessage());
     } catch (StringException $e) {
