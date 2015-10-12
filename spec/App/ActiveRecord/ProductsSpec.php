@@ -22,8 +22,11 @@ class ProductsSpec extends ObjectBehavior
 
         $dbStatement = $prophet->prophesize('PDOStatement');
         $dbStatement->execute(["test", 1099, "test text"])->willReturn(true);
+        $dbStatement->execute([1])->willReturn(true);
+        $dbStatement->fetch(\PDO::FETCH_ASSOC)->willReturn(['id' => 1, 'name' => 'test', 'price' => 1099, 'description' => 'some test data']);
 
         $db->prepare('INSERT INTO `products`(`name`, `price`, `description`) VALUES (?, ?, ?)')->willReturn($dbStatement);
+        $db->prepare('SELECT `id`, `name`, `price`, `description` FROM `products` WHERE `id` = ?')->willReturn($dbStatement);
 
         return $db->reveal();
     }
@@ -75,5 +78,18 @@ class ProductsSpec extends ObjectBehavior
         $this->description = 'test text';
 
         $this->save()->shouldReturn(true);
+    }
+
+    public function it_cant_load_based_on_fields_that_arnt_part_of_the_model()
+    {
+        $this->shouldThrow('App\ActiveRecord\ModelException')->during('load', [['foo' => 'bar']]);
+    }
+
+    public function it_can_load_a_product_with_id_1()
+    {
+        $this->load(['id' => 1]);
+        $this->name->shouldReturn('test');
+        $this->price()->shouldReturn('10.99');
+        $this->description->shouldReturn('some test data');
     }
 }

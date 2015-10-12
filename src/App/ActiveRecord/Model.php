@@ -93,7 +93,7 @@ abstract class Model
         }
 
         return sprintf(
-            'SELECT `%s` FROM %s WHERE `%s` = ?',
+            'SELECT `%s` FROM `%s` WHERE `%s` = ?',
             implode('`, `', $this->fields),
             $this->table,
             implode('` = ? AND `', array_keys($where))
